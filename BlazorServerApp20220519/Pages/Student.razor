@@ -1,0 +1,60 @@
+﻿@page "/student"
+@inject DbService _AdoDotNetService
+
+<h3>Student</h3>
+
+@if (lst == null)
+{
+    <div>Loading...</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Code</th>
+                <th>Student Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in lst)
+            {
+                <tr>
+                    <td>@item.StudentId</td>
+                    <td>@item.StudentCode</td>
+                    <td>@item.StudentName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private List<StudentModel> lst;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //lst = _AdoDotNetService.GetStudents();
+        lst = _AdoDotNetService.GetStudents3(16);
+
+        _AdoDotNetService.AddStudent(new StudentModel
+        {
+            StudentCode = "testing",
+            StudentName = "test"
+        });
+
+        _AdoDotNetService.UpdateStudent(new StudentModel
+        {
+            StudentId = 17,
+            StudentCode = "testing 2",
+            StudentName = "test2"
+        });
+
+        _AdoDotNetService.DeleteStudent(17);
+    }
+
+    //protected override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    return base.OnAfterRenderAsync(firstRender);
+    //}
+}
